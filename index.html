@@ -53,7 +53,7 @@
 
   a{color:inherit;text-decoration:none}
 
-  .display{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.01em;line-height:.92}
+  .display{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.01em;line-height:1.05}
   .stencil{font-family:'Bebas Neue',sans-serif;letter-spacing:.05em}
   .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
 
@@ -113,7 +113,8 @@
     min-height:100vh;
     padding:160px 40px 80px;
     position:relative;
-    display:flex;flex-direction:column;justify-content:center;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;
     overflow:hidden;
   }
 
@@ -127,16 +128,16 @@
   /* Mira tática decorativa */
   .crosshair{
     position:absolute;
-    top:50%;right:8%;
-    width:380px;height:380px;
-    transform:translateY(-50%);
-    opacity:.28;
+    top:50%;left:50%;
+    width:680px;height:680px;
+    transform:translate(-50%,-50%);
+    opacity:.10;
     z-index:0;
     animation:crosshairPulse 4s ease-in-out infinite;
   }
   @keyframes crosshairPulse{
-    0%,100%{opacity:.22;transform:translateY(-50%) scale(1)}
-    50%{opacity:.38;transform:translateY(-50%) scale(1.04)}
+    0%,100%{opacity:.08;transform:translate(-50%,-50%) scale(1)}
+    50%{opacity:.14;transform:translate(-50%,-50%) scale(1.04)}
   }
 
   .hero-tag{
@@ -146,6 +147,8 @@
     color:var(--sand);
     margin-bottom:30px;
     position:relative;z-index:2;
+    text-align:center;
+    justify-content:center;
   }
   .hero-tag .blink{
     width:10px;height:10px;background:var(--red);border-radius:50%;
@@ -156,8 +159,8 @@
 
   .hero h1{
     font-family:'Anton',sans-serif;
-    font-size:clamp(3rem, 9vw, 8.5rem);
-    line-height:.88;
+    font-size:clamp(2.4rem, 5.5vw, 4.8rem);
+    line-height:1.08;
     letter-spacing:-.005em;
     margin-bottom:30px;
     position:relative;z-index:2;
@@ -172,16 +175,17 @@
 
   .hero-sub{
     font-size:1.1rem;
-    max-width:620px;
+    max-width:680px;
     color:rgba(232,226,211,.82);
     margin-bottom:44px;
     position:relative;z-index:2;
-    line-height:1.65;
+    line-height:1.7;
     font-weight:300;
+    text-align:center;
   }
   .hero-sub strong{color:var(--bone);font-weight:500}
 
-  .hero-cta-row{display:flex;gap:18px;flex-wrap:wrap;position:relative;z-index:2;margin-bottom:60px}
+  .hero-cta-row{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;position:relative;z-index:2;margin-bottom:60px}
 
   .btn-primary{
     padding:18px 38px;
@@ -216,10 +220,11 @@
 
   .hero-stats{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:30px;max-width:900px;
+    gap:30px;max-width:900px;width:100%;
     padding-top:36px;
     border-top:1px solid rgba(201,179,128,.18);
     position:relative;z-index:2;
+    text-align:center;
   }
   .stat .num{font-family:'Anton',sans-serif;font-size:2.8rem;color:var(--bone);line-height:1}
   .stat .num span{color:var(--red)}
@@ -241,13 +246,19 @@
   }
   .section-tag::before{content:'';width:30px;height:1px;background:var(--red)}
 
+  .section-tag.center{
+    justify-content:center;
+  }
+  .section-tag.center::after{content:'';width:30px;height:1px;background:var(--red)}
+
   .section-title{
     font-family:'Anton',sans-serif;
     font-size:clamp(2.4rem,5.5vw,4.8rem);
-    line-height:.95;
+    line-height:1.08;
     margin-bottom:24px;
     max-width:900px;
   }
+  .section-title.center{margin-left:auto;margin-right:auto;text-align:center}
   .section-title .hl{color:var(--sand)}
   .section-title .red{color:var(--red)}
 
@@ -258,6 +269,9 @@
     line-height:1.7;
     margin-bottom:60px;
   }
+  .section-sub.center{margin-left:auto;margin-right:auto;text-align:center}
+
+  .section-head-center{text-align:center;display:flex;flex-direction:column;align-items:center}
 
   /* ============ PROBLEMA ============ */
   .problem{
@@ -287,7 +301,7 @@
   }
   .problem-card h3{
     font-family:'Anton',sans-serif;
-    font-size:1.55rem;line-height:1.05;
+    font-size:1.55rem;line-height:1.1;
     margin-bottom:14px;
     color:var(--bone);
   }
@@ -297,17 +311,73 @@
 
   /* ============ SERVIÇOS ============ */
   .services{padding-bottom:60px}
-  .services-grid{
-    display:grid;grid-template-columns:repeat(12,1fr);gap:20px;
+
+  .services-carousel{
+    position:relative;
+    max-width:1400px;
+    margin:0 auto;
+    padding:0 60px;
   }
+  .services-track{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    padding:8px 4px 30px;
+  }
+  .services-track::-webkit-scrollbar{display:none}
+
+  .services-track .service{
+    flex:0 0 calc((100% - 40px) / 3); /* 3 cards visíveis no desktop */
+    scroll-snap-align:start;
+    min-width:0;
+    margin:0;
+  }
+
+  .carousel-btn{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:48px;height:48px;
+    background:rgba(13,14,10,.85);
+    border:1.5px solid var(--sand);
+    color:var(--bone);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    z-index:5;
+    transition:background .25s,border-color .25s,color .25s,transform .25s;
+    backdrop-filter:blur(6px);
+  }
+  .carousel-btn:hover{background:var(--red);border-color:var(--red);color:var(--bone);transform:translateY(-50%) scale(1.06)}
+  .carousel-btn.prev{left:0}
+  .carousel-btn.next{right:0}
+  .carousel-btn svg{width:22px;height:22px}
+  .carousel-btn[disabled]{opacity:.3;cursor:not-allowed;transform:translateY(-50%)}
+  .carousel-btn[disabled]:hover{background:rgba(13,14,10,.85);border-color:var(--sand);color:var(--bone);transform:translateY(-50%)}
+
+  .carousel-dots{
+    display:flex;justify-content:center;gap:10px;margin-top:30px;
+  }
+  .carousel-dots .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:rgba(201,179,128,.3);
+    transition:background .25s,width .25s;
+    cursor:pointer;
+  }
+  .carousel-dots .dot.active{background:var(--red);width:28px;border-radius:4px}
+
+  /* Problem dots — visíveis só no mobile */
+  .problem-dots{display:none}
+
   .service{
-    grid-column:span 4;
     padding:40px 32px;
     background:linear-gradient(160deg,rgba(61,74,42,.18),rgba(13,14,10,.4));
     border:1px solid rgba(201,179,128,.15);
     position:relative;
     overflow:hidden;
     transition:transform .4s, border-color .3s;
+    height:100%;
   }
   .service:hover{transform:translateY(-8px);border-color:var(--sand)}
   .service::before{
@@ -322,11 +392,10 @@
   }
   .service .ico{width:54px;height:54px;color:var(--sand);margin-bottom:24px}
   .service h3{
-    font-family:'Anton',sans-serif;font-size:1.7rem;line-height:1;margin-bottom:14px;
+    font-family:'Anton',sans-serif;font-size:1.7rem;line-height:1.1;margin-bottom:14px;
   }
   .service p{font-size:.95rem;color:rgba(232,226,211,.72);line-height:1.65}
 
-  .service.wide{grid-column:span 8}
   .service.featured{
     background:linear-gradient(160deg,rgba(196,51,43,.15),rgba(13,14,10,.6));
     border-color:rgba(196,51,43,.4);
@@ -623,6 +692,9 @@
   .reveal.in{opacity:1;transform:translateY(0)}
 
   /* ============ RESPONSIVE ============ */
+  @media (max-width:1100px){
+    .services-track .service{flex:0 0 calc((100% - 20px) / 2)} /* 2 cards no tablet */
+  }
   @media (max-width:980px){
     nav{padding:14px 22px}
     .nav-links,.nav-cta{display:none}
@@ -630,12 +702,48 @@
     section,.coverage,.cta-final,footer{padding-left:22px;padding-right:22px}
     .hero{padding:130px 22px 60px}
     .coords{display:none}
-    .crosshair{width:240px;height:240px;opacity:.18;right:-40px}
-    .services-grid{grid-template-columns:1fr;gap:14px}
-    .service,.service.wide{grid-column:span 1}
-    .coverage-wrap{grid-template-columns:1fr;gap:50px}
+    .crosshair{width:380px;height:380px;opacity:.08}
+
+    /* Carrossel de serviços no mobile — 1 card por slide */
+    .services-carousel{padding:0}
+    .services-track{
+      gap:14px;
+      padding-left:22px;padding-right:22px;
+    }
+    .services-track .service{flex:0 0 85%}
+    .carousel-btn{display:none} /* esconde setas no mobile, swipe é nativo */
+
+    /* Carrossel de problem no mobile */
+    .problem-grid{
+      grid-template-columns:none;
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+      padding:8px 22px 30px;
+      margin-left:-22px;margin-right:-22px;
+    }
+    .problem-grid::-webkit-scrollbar{display:none}
+    .problem-card{
+      flex:0 0 85%;
+      scroll-snap-align:start;
+      min-width:0;
+    }
+    .problem-dots{display:flex}
+
+    /* Coverage section centralizada no mobile */
+    .coverage-wrap{grid-template-columns:1fr;gap:50px;text-align:center}
+    .coverage-text .section-tag{justify-content:center}
+    .coverage-text .section-tag::after{content:'';width:30px;height:1px;background:var(--red)}
+    .coverage-text .section-title{margin-left:auto;margin-right:auto;text-align:center}
+    .coverage-text > p{text-align:center;max-width:560px;margin-left:auto;margin-right:auto}
+    .timeline{text-align:left;display:inline-block;margin-left:0}
+
     .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
-    .hero h1{font-size:clamp(2.6rem,11vw,4.2rem)}
+    .hero h1{font-size:clamp(2rem,8vw,3rem)}
     .cta-final::after{font-size:8rem}
   }
   @media (max-width:560px){
@@ -737,11 +845,13 @@
 
 <!-- ============ PROBLEMA ============ -->
 <section class="problem" id="problema">
-  <div class="section-tag">DIAGNÓSTICO DE CAMPO</div>
-  <h2 class="section-title">
-    SE SEU CAMPO TEM <span class="red">UM DESSES PROBLEMAS,</span><br>
-    A GENTE PRECISA CONVERSAR.
-  </h2>
+  <div class="section-head-center">
+    <div class="section-tag center">DIAGNÓSTICO DE CAMPO</div>
+    <h2 class="section-title center">
+      SE SEU CAMPO TEM <span class="red">UM DESSES PROBLEMAS,</span><br>
+      A GENTE PRECISA CONVERSAR.
+    </h2>
+  </div>
 
   <div class="problem-grid">
     <div class="problem-card reveal">
@@ -780,107 +890,128 @@
       <p>Logo genérica, paleta sem identidade, comunicação igual à de qualquer outro campo. Nada faz o operador escolher você antes do campo do vizinho.</p>
     </div>
   </div>
+
+  <!-- Indicadores do carrossel (visíveis só no mobile via CSS) -->
+  <div class="carousel-dots problem-dots" aria-hidden="true">
+    <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+  </div>
 </section>
 
 <!-- ============ SERVIÇOS ============ -->
 <section class="services" id="servicos">
-  <div class="section-tag">ARSENAL ESTRATÉGICO</div>
-  <h2 class="section-title">
-    TUDO QUE UMA AGÊNCIA FAZ.<br>
-    <span class="hl">MAS NA LINGUAGEM DE QUEM</span><br>
-    VIVE O AIRSOFT.
-  </h2>
-  <p class="section-sub">
-    Não somos uma agência genérica que aprendeu sobre seu nicho. Somos operadores que entendem de marketing — e isso muda tudo na hora de gerar resultado.
-  </p>
-
-  <div class="services-grid">
-
-    <div class="service featured wide reveal">
-      <span class="id">SVC.001 // CARRO-CHEFE</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
-      </svg>
-      <h3>Cobertura completa de games</h3>
-      <p>Drone, fotografia, vídeo cinematográfico, reels, edição em tempo real e divulgação pré-game. Transformamos seu evento em conteúdo viral antes, durante e depois — e ainda monetizamos com a venda de fotos para os participantes.</p>
-    </div>
-
-    <div class="service reveal">
-      <span class="id">SVC.002</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <h3>Tráfego pago especializado</h3>
-      <p>Meta Ads e Google Ads com segmentação de operadores reais — não público frio que nunca pisou num campo.</p>
-    </div>
-
-    <div class="service reveal">
-      <span class="id">SVC.003</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M12 2L4 7l8 5 8-5z"/><path d="M4 12l8 5 8-5"/><path d="M4 17l8 5 8-5"/>
-      </svg>
-      <h3>Gestão de redes sociais</h3>
-      <p>Instagram, TikTok e YouTube com calendário editorial pensado pra gerar lotação de game e fidelização.</p>
-    </div>
-
-    <div class="service reveal">
-      <span class="id">SVC.004</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/>
-      </svg>
-      <h3>Branding tático</h3>
-      <p>Identidade visual, naming, patches, uniformes e tudo que faz seu campo virar referência visual no estado.</p>
-    </div>
-
-    <div class="service reveal">
-      <span class="id">SVC.005</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-      </svg>
-      <h3>Site e venda de fotos</h3>
-      <p>Plataforma para o operador comprar suas fotos do game direto após o evento. Receita extra recorrente para o campo.</p>
-    </div>
-
-    <div class="service reveal">
-      <span class="id">SVC.006</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-      </svg>
-      <h3>WhatsApp & CRM</h3>
-      <p>Automação para confirmar presença, vender ingresso, recuperar cliente parado e disparar avisos do próximo game.</p>
-    </div>
-
-    <div class="service reveal">
-      <span class="id">SVC.007</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-      <h3>Gestão de comunidade</h3>
-      <p>Grupos de WhatsApp, fóruns e Discord ativos que mantêm os operadores engajados entre um game e outro.</p>
-    </div>
-
-    <div class="service reveal">
-      <span class="id">SVC.008</span>
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>
-      </svg>
-      <h3>BI & relatórios mensais</h3>
-      <p>Você sabe exatamente quanto custa cada operador novo, qual game deu mais ROI e onde escalar no próximo mês.</p>
-    </div>
-
+  <div class="section-head-center">
+    <div class="section-tag center">ARSENAL ESTRATÉGICO</div>
+    <h2 class="section-title center">
+      TUDO QUE UMA AGÊNCIA FAZ.<br>
+      <span class="hl">MAS NA LINGUAGEM DE QUEM</span><br>
+      VIVE O AIRSOFT.
+    </h2>
+    <p class="section-sub center">
+      Não somos uma agência genérica que aprendeu sobre seu nicho. Somos operadores que entendem de marketing — e isso muda tudo na hora de gerar resultado.
+    </p>
   </div>
+
+  <div class="services-carousel">
+    <button class="carousel-btn prev" aria-label="Anterior" data-target="services">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+
+    <div class="services-track" id="servicesTrack">
+
+      <div class="service featured reveal">
+        <span class="id">SVC.001 // CARRO-CHEFE</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+        <h3>Cobertura completa de games</h3>
+        <p>Drone, fotografia, vídeo cinematográfico, reels, edição em tempo real e divulgação pré-game. Transformamos seu evento em conteúdo viral antes, durante e depois — e ainda monetizamos com a venda de fotos para os participantes.</p>
+      </div>
+
+      <div class="service reveal">
+        <span class="id">SVC.002</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <h3>Tráfego pago especializado</h3>
+        <p>Meta Ads e Google Ads com segmentação de operadores reais — não público frio que nunca pisou num campo.</p>
+      </div>
+
+      <div class="service reveal">
+        <span class="id">SVC.003</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L4 7l8 5 8-5z"/><path d="M4 12l8 5 8-5"/><path d="M4 17l8 5 8-5"/>
+        </svg>
+        <h3>Gestão de redes sociais</h3>
+        <p>Instagram, TikTok e YouTube com calendário editorial pensado pra gerar lotação de game e fidelização.</p>
+      </div>
+
+      <div class="service reveal">
+        <span class="id">SVC.004</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/>
+        </svg>
+        <h3>Branding tático</h3>
+        <p>Identidade visual, naming, patches, uniformes e tudo que faz seu campo virar referência visual no estado.</p>
+      </div>
+
+      <div class="service reveal">
+        <span class="id">SVC.005</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        <h3>Site e venda de fotos</h3>
+        <p>Plataforma para o operador comprar suas fotos do game direto após o evento. Receita extra recorrente para o campo.</p>
+      </div>
+
+      <div class="service reveal">
+        <span class="id">SVC.006</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+        <h3>WhatsApp & CRM</h3>
+        <p>Automação para confirmar presença, vender ingresso, recuperar cliente parado e disparar avisos do próximo game.</p>
+      </div>
+
+      <div class="service reveal">
+        <span class="id">SVC.007</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <h3>Gestão de comunidade</h3>
+        <p>Grupos de WhatsApp, fóruns e Discord ativos que mantêm os operadores engajados entre um game e outro.</p>
+      </div>
+
+      <div class="service reveal">
+        <span class="id">SVC.008</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>
+        </svg>
+        <h3>BI & relatórios mensais</h3>
+        <p>Você sabe exatamente quanto custa cada operador novo, qual game deu mais ROI e onde escalar no próximo mês.</p>
+      </div>
+
+    </div>
+
+    <button class="carousel-btn next" aria-label="Próximo" data-target="services">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="carousel-dots services-dots" aria-hidden="true"></div>
 </section>
 
 <!-- ============ MÉTODO ============ -->
 <section class="method" id="metodo">
-  <div class="section-tag">PROTOCOLO DE OPERAÇÃO</div>
-  <h2 class="section-title">
-    NOSSA METODOLOGIA DE COMBATE<br>
-    EM <span class="red">5 FASES.</span>
-  </h2>
-  <p class="section-sub">
-    Nada aqui é improviso. Cada cliente entra num processo militar de diagnóstico, planejamento, execução, cobertura e otimização contínua.
-  </p>
+  <div class="section-head-center">
+    <div class="section-tag center">PROTOCOLO DE OPERAÇÃO</div>
+    <h2 class="section-title center">
+      NOSSA METODOLOGIA DE COMBATE<br>
+      EM <span class="red">5 FASES.</span>
+    </h2>
+    <p class="section-sub center">
+      Nada aqui é improviso. Cada cliente entra num processo militar de diagnóstico, planejamento, execução, cobertura e otimização contínua.
+    </p>
+  </div>
 
   <div class="method-grid">
     <div class="step reveal">
@@ -918,8 +1049,7 @@
       <div class="section-tag">MISSÃO ESPECIAL</div>
       <h2 class="section-title">
         COBERTURA <span class="red">PRÉ · DURANTE · PÓS</span> GAME.
-      </h2>
-      <p>
+      </h2>      <p>
         Nosso diferencial está aqui. Tratamos cada game grande do seu campo como uma operação de mídia. Cobrimos tudo, transformamos em conteúdo viral e ainda geramos receita extra com a venda das fotos para os operadores.
       </p>
 
@@ -957,13 +1087,15 @@
 
 <!-- ============ ICP / CASES ============ -->
 <section class="icp" id="cases">
-  <div class="section-tag">PERFIL DE CLIENTE</div>
-  <h2 class="section-title">
-    PARA QUEM É A <span class="red">TACTICAL MÍDIA.</span>
-  </h2>
-  <p class="section-sub">
-    Trabalhamos com quem leva airsoft a sério. Se você se reconhece em algum desses perfis, a gente já sabe como te ajudar a escalar.
-  </p>
+  <div class="section-head-center">
+    <div class="section-tag center">PERFIL DE CLIENTE</div>
+    <h2 class="section-title center">
+      PARA QUEM É A <span class="red">TACTICAL MÍDIA.</span>
+    </h2>
+    <p class="section-sub center">
+      Trabalhamos com quem leva airsoft a sério. Se você se reconhece em algum desses perfis, a gente já sabe como te ajudar a escalar.
+    </p>
+  </div>
 
   <div class="icp-grid">
     <div class="icp-card reveal">
@@ -991,11 +1123,13 @@
 
 <!-- ============ DEPOIMENTOS ============ -->
 <section class="testimonials">
-  <div class="section-tag">PROVA DE CAMPO</div>
-  <h2 class="section-title">
-    O QUE OS COMANDANTES<br>
-    <span class="hl">ESTÃO FALANDO.</span>
-  </h2>
+  <div class="section-head-center">
+    <div class="section-tag center">PROVA DE CAMPO</div>
+    <h2 class="section-title center">
+      O QUE OS COMANDANTES<br>
+      <span class="hl">ESTÃO FALANDO.</span>
+    </h2>
+  </div>
 
   <div class="testi-grid">
     <div class="testi reveal">
@@ -1038,10 +1172,12 @@
 
 <!-- ============ FAQ ============ -->
 <section class="faq" id="faq">
-  <div class="section-tag">PERGUNTAS FREQUENTES</div>
-  <h2 class="section-title">
-    DÚVIDAS DE <span class="red">RECRUTAMENTO.</span>
-  </h2>
+  <div class="section-head-center">
+    <div class="section-tag center">PERGUNTAS FREQUENTES</div>
+    <h2 class="section-title center">
+      DÚVIDAS DE <span class="red">RECRUTAMENTO.</span>
+    </h2>
+  </div>
 
   <div class="faq-list">
     <details class="faq-item">
@@ -1074,7 +1210,7 @@
 <!-- ============ CTA FINAL ============ -->
 <section class="cta-final" id="contato">
   <div class="cta-wrap">
-    <div class="section-tag" style="justify-content:center">CHAMADO À AÇÃO</div>
+    <div class="section-tag center">CHAMADO À AÇÃO</div>
     <h2>
       ESTÁ NA HORA DE<br>
       <span class="red">DOMINAR</span> SEU TERRITÓRIO.
@@ -1155,6 +1291,131 @@
       l.style.color = (l.getAttribute('href') === '#'+active) ? 'var(--sand)' : '';
     })
   });
+
+  // ============ CARROSSEL DE SERVIÇOS ============
+  (function setupServicesCarousel(){
+    const track = document.getElementById('servicesTrack');
+    if(!track) return;
+    const cards = track.querySelectorAll('.service');
+    const prevBtn = document.querySelector('.carousel-btn.prev[data-target="services"]');
+    const nextBtn = document.querySelector('.carousel-btn.next[data-target="services"]');
+    const dotsContainer = document.querySelector('.services-dots');
+
+    function getVisibleCount(){
+      const w = window.innerWidth;
+      if(w <= 980) return 1;
+      if(w <= 1100) return 2;
+      return 3;
+    }
+
+    function buildDots(){
+      if(!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const visible = getVisibleCount();
+      const totalSlides = Math.max(1, cards.length - visible + 1);
+      for(let i=0;i<totalSlides;i++){
+        const d = document.createElement('span');
+        d.className = 'dot' + (i===0?' active':'');
+        d.addEventListener('click',()=>scrollToCard(i));
+        dotsContainer.appendChild(d);
+      }
+    }
+
+    function scrollToCard(index){
+      if(!cards[index]) return;
+      const cardLeft = cards[index].offsetLeft - track.offsetLeft;
+      track.scrollTo({left:cardLeft, behavior:'smooth'});
+    }
+
+    function getCurrentIndex(){
+      const scrollLeft = track.scrollLeft;
+      let closest = 0, minDist = Infinity;
+      cards.forEach((c,i)=>{
+        const dist = Math.abs((c.offsetLeft - track.offsetLeft) - scrollLeft);
+        if(dist < minDist){minDist=dist;closest=i}
+      });
+      return closest;
+    }
+
+    function updateUI(){
+      const idx = getCurrentIndex();
+      const visible = getVisibleCount();
+      const max = cards.length - visible;
+
+      if(prevBtn) prevBtn.toggleAttribute('disabled', idx <= 0);
+      if(nextBtn) nextBtn.toggleAttribute('disabled', idx >= max);
+
+      if(dotsContainer){
+        const dots = dotsContainer.querySelectorAll('.dot');
+        dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+      }
+    }
+
+    if(prevBtn) prevBtn.addEventListener('click',()=>{
+      const idx = getCurrentIndex();
+      scrollToCard(Math.max(0, idx-1));
+    });
+    if(nextBtn) nextBtn.addEventListener('click',()=>{
+      const idx = getCurrentIndex();
+      const visible = getVisibleCount();
+      scrollToCard(Math.min(cards.length-visible, idx+1));
+    });
+
+    track.addEventListener('scroll', () => {
+      clearTimeout(track._t);
+      track._t = setTimeout(updateUI, 80);
+    });
+
+    window.addEventListener('resize', () => {
+      buildDots();
+      updateUI();
+    });
+
+    buildDots();
+    updateUI();
+  })();
+
+  // ============ DOTS DO PROBLEM (apenas mobile) ============
+  (function setupProblemDots(){
+    const grid = document.querySelector('.problem-grid');
+    const dotsContainer = document.querySelector('.problem-dots');
+    if(!grid || !dotsContainer) return;
+    const cards = grid.querySelectorAll('.problem-card');
+    const dots = dotsContainer.querySelectorAll('.dot');
+
+    function isMobile(){return window.innerWidth <= 980}
+
+    function getCurrentIndex(){
+      const scrollLeft = grid.scrollLeft;
+      let closest = 0, minDist = Infinity;
+      cards.forEach((c,i)=>{
+        const dist = Math.abs((c.offsetLeft - grid.offsetLeft) - scrollLeft);
+        if(dist < minDist){minDist=dist;closest=i}
+      });
+      return closest;
+    }
+
+    function update(){
+      if(!isMobile()) return;
+      const idx = getCurrentIndex();
+      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+    }
+
+    grid.addEventListener('scroll', () => {
+      clearTimeout(grid._t);
+      grid._t = setTimeout(update, 80);
+    });
+
+    dots.forEach((d,i)=>{
+      d.addEventListener('click', ()=>{
+        if(!isMobile()) return;
+        const card = cards[i];
+        if(card){
+          grid.scrollTo({left: card.offsetLeft - grid.offsetLeft, behavior:'smooth'});
+        }
+      });
+    });
+  })();
 </script>
 
 </body>
