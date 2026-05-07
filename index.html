@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TACTICAL MÍDIA — Marketing especializado em Airsoft</title>
+<title>TACTICAL MÍDIA · Marketing especializado em Airsoft</title>
 <meta name="description" content="Agência de marketing nichada em airsoft. Cobertura de games, tráfego pago, branding e venda de fotos pós-evento para campos, lojas e organizadores." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,8 +105,40 @@
   }
   .nav-cta:hover{background:var(--red-bright);transform:translateY(-1px)}
 
-  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:8px}
-  .hamburger span{width:24px;height:2px;background:var(--bone)}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:8px;z-index:101;position:relative}
+  .hamburger span{width:24px;height:2px;background:var(--bone);transition:transform .3s,opacity .3s}
+  .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.active span:nth-child(2){opacity:0}
+  .hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* Mobile menu */
+  .mobile-menu{
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(13,14,10,.98);
+    backdrop-filter:blur(20px);
+    z-index:99;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .35s ease;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mobile-menu.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .mobile-menu-inner{
+    display:flex;flex-direction:column;align-items:center;gap:28px;
+    text-align:center;padding:30px;
+  }
+  .mob-link{
+    font-family:'Anton',sans-serif;
+    font-size:2.2rem;
+    letter-spacing:.05em;
+    color:var(--bone);
+    transition:color .25s;
+  }
+  .mob-link:hover{color:var(--red)}
+  .mob-cta{margin-top:20px;font-size:1.1rem !important;padding:16px 36px !important}
 
   /* ============ HERO ============ */
   .hero{
@@ -236,7 +268,7 @@
   .coords.br{bottom:30px;right:40px;text-align:right}
 
   /* ============ SECTION GENERIC ============ */
-  section{padding:120px 40px;position:relative;z-index:2}
+  section{padding:90px 40px;position:relative;z-index:2}
 
   .section-tag{
     display:inline-flex;align-items:center;gap:14px;
@@ -267,11 +299,89 @@
     color:rgba(232,226,211,.7);
     max-width:680px;
     line-height:1.7;
-    margin-bottom:60px;
+    margin-bottom:40px;
   }
   .section-sub.center{margin-left:auto;margin-right:auto;text-align:center}
 
-  .section-head-center{text-align:center;display:flex;flex-direction:column;align-items:center}
+  .section-head-center{text-align:center;display:flex;flex-direction:column;align-items:center;margin-bottom:30px}
+
+  .section-cta{
+    display:flex;justify-content:center;
+    margin-top:50px;
+  }
+
+  /* Visibilidade desktop / mobile */
+  .dt-only{display:inline}
+  .mb-only{display:none}
+  @media (max-width:980px){
+    .dt-only{display:none}
+    .mb-only{display:inline}
+  }
+
+  /* ============ SOBRE NÓS ============ */
+  .about{
+    background:linear-gradient(180deg,transparent,rgba(26,33,19,.4),transparent);
+    border-top:1px solid rgba(201,179,128,.15);
+    border-bottom:1px solid rgba(201,179,128,.15);
+    overflow:hidden;
+  }
+  .about-wrap{
+    display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;
+    max-width:1400px;margin:0 auto;
+  }
+  .about-text .section-title{margin-bottom:24px}
+  .about-text > p{
+    color:rgba(232,226,211,.78);font-size:1.05rem;line-height:1.75;margin-bottom:20px;
+  }
+  .about-pillars{
+    display:flex;gap:30px;flex-wrap:wrap;margin-top:30px;
+  }
+  .about-pillar{
+    flex:1;min-width:140px;
+    padding:20px 0 0;
+    border-top:2px solid var(--red);
+  }
+  .about-pillar .num{
+    font-family:'Anton',sans-serif;font-size:2.4rem;color:var(--bone);line-height:1;
+  }
+  .about-pillar .num span{color:var(--red)}
+  .about-pillar .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--sand);margin-top:6px;
+  }
+
+  .about-visual{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    border:1px solid rgba(201,179,128,.25);
+  }
+  .about-visual img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:grayscale(.25) contrast(1.05) brightness(.92);
+    transition:filter .5s,transform .8s;
+  }
+  .about-visual:hover img{filter:grayscale(0) contrast(1.1) brightness(1);transform:scale(1.03)}
+  .about-visual::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(13,14,10,.35),transparent 50%,rgba(196,51,43,.15));
+    pointer-events:none;
+  }
+  .about-visual .corner{
+    position:absolute;width:30px;height:30px;
+    border:2px solid var(--red);
+    z-index:2;
+  }
+  .about-visual .corner.tl{top:14px;left:14px;border-right:none;border-bottom:none}
+  .about-visual .corner.tr{top:14px;right:14px;border-left:none;border-bottom:none}
+  .about-visual .corner.bl{bottom:14px;left:14px;border-right:none;border-top:none}
+  .about-visual .corner.br{bottom:14px;right:14px;border-left:none;border-top:none}
+  .about-visual .stencil-tag{
+    position:absolute;top:24px;right:24px;
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.2em;
+    color:var(--bone);background:rgba(196,51,43,.85);padding:6px 12px;
+    z-index:3;
+  }
 
   /* ============ PROBLEMA ============ */
   .problem{
@@ -281,7 +391,7 @@
   }
   .problem-grid{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;margin-top:60px;
+    gap:30px;margin-top:20px;
   }
   .problem-card{
     padding:36px 30px;
@@ -413,17 +523,36 @@
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><pattern id='c' patternUnits='userSpaceOnUse' width='80' height='80'><path d='M0 40h80M40 0v80' stroke='%23c9b380' stroke-width='.4' opacity='.15'/><circle cx='40' cy='40' r='2' fill='%23c4332b' opacity='.3'/></pattern><rect width='100%' height='100%' fill='url(%23c)'/></svg>");
     opacity:.3;pointer-events:none;
   }
-  .method-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:0;margin-top:60px;position:relative;z-index:1;
+
+  .method-carousel{
+    position:relative;
+    max-width:1400px;
+    margin:0 auto;
+    padding:0 60px;
   }
+  .method-grid{
+    display:flex;
+    gap:18px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    padding:8px 4px 30px;
+    margin-top:20px;
+    position:relative;
+    z-index:1;
+  }
+  .method-grid::-webkit-scrollbar{display:none}
   .step{
+    flex:0 0 calc((100% - 36px) / 3); /* 3 cards visíveis no desktop */
+    scroll-snap-align:start;
     padding:42px 32px;
     border:1px solid rgba(201,179,128,.18);
     background:rgba(13,14,10,.78);
     position:relative;
     transition:background .3s;
-    margin-left:-1px;margin-top:-1px;
+    min-width:0;
   }
   .step:hover{background:rgba(26,33,19,.9)}
   .step .step-num{
@@ -437,11 +566,13 @@
   }
   .step p{font-size:.92rem;color:rgba(232,226,211,.7);line-height:1.65}
 
+  .method-dots{display:none}
+
   /* ============ COBERTURA EVENTO ============ */
   .coverage{
     background:linear-gradient(180deg,var(--olive-deep),var(--black));
     border-top:1px solid rgba(201,179,128,.18);
-    padding:140px 40px;
+    padding:90px 40px;
     overflow:hidden;
     position:relative;
   }
@@ -523,12 +654,12 @@
 
   /* ============ CASE / CLIENTE IDEAL ============ */
   .icp{
-    padding:140px 40px;
+    padding:90px 40px;
     background:linear-gradient(180deg,var(--black),rgba(26,33,19,.4));
   }
   .icp-grid{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:24px;margin-top:60px;
+    gap:24px;margin-top:20px;
   }
   .icp-card{
     padding:38px 28px;
@@ -548,10 +679,10 @@
   .icp-card p{font-size:.92rem;color:rgba(232,226,211,.7);line-height:1.6}
 
   /* ============ DEPOIMENTOS ============ */
-  .testimonials{padding:140px 40px}
+  .testimonials{padding:90px 40px}
   .testi-grid{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:24px;margin-top:60px;
+    gap:24px;margin-top:20px;
   }
   .testi{
     padding:38px 32px;
@@ -576,8 +707,8 @@
   .testi-author .role{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--sand-dim);letter-spacing:.1em}
 
   /* ============ FAQ ============ */
-  .faq{padding-bottom:140px}
-  .faq-list{margin-top:50px;max-width:920px}
+  .faq{padding-bottom:90px}
+  .faq-list{margin:30px auto 0;max-width:920px}
   .faq-item{
     border:1px solid rgba(201,179,128,.15);
     margin-bottom:14px;
@@ -601,52 +732,6 @@
   .faq-item[open] summary::after{transform:rotate(45deg)}
   .faq-item .answer{padding:0 30px 26px;color:rgba(232,226,211,.75);line-height:1.7;font-size:.98rem}
 
-  /* ============ CTA FINAL ============ */
-  .cta-final{
-    padding:140px 40px;
-    background:
-      linear-gradient(135deg,var(--olive-dark) 0%,var(--olive-deep) 100%);
-    position:relative;
-    overflow:hidden;
-    border-top:1px solid rgba(196,51,43,.4);
-    border-bottom:1px solid rgba(196,51,43,.4);
-  }
-  .cta-final::before{
-    content:'';position:absolute;inset:0;
-    background:
-      radial-gradient(circle at 80% 50%, rgba(196,51,43,.18), transparent 50%);
-  }
-  .cta-final::after{
-    content:'CLASSIFIED';
-    position:absolute;
-    font-family:'Anton',sans-serif;
-    font-size:18rem;
-    color:rgba(232,226,211,.025);
-    top:50%;left:50%;transform:translate(-50%,-50%);
-    pointer-events:none;letter-spacing:.05em;white-space:nowrap;
-  }
-  .cta-wrap{
-    max-width:1100px;margin:0 auto;
-    text-align:center;position:relative;z-index:2;
-  }
-  .cta-final h2{
-    font-family:'Anton',sans-serif;
-    font-size:clamp(2.5rem,7vw,6rem);
-    line-height:.95;margin-bottom:24px;
-  }
-  .cta-final h2 .red{color:var(--red)}
-  .cta-final p{
-    font-size:1.15rem;color:rgba(232,226,211,.78);
-    max-width:620px;margin:0 auto 44px;line-height:1.6;
-  }
-  .cta-final .btn-primary{font-size:1.4rem;padding:22px 50px}
-
-  .cta-extra{
-    margin-top:44px;font-family:'JetBrains Mono',monospace;
-    font-size:.78rem;letter-spacing:.18em;color:var(--sand);
-    text-transform:uppercase;
-  }
-
   /* ============ FOOTER ============ */
   footer{
     padding:80px 40px 30px;
@@ -654,7 +739,7 @@
     border-top:1px solid rgba(201,179,128,.15);
   }
   .footer-grid{
-    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:50px;
+    display:grid;grid-template-columns:2fr 1fr 1fr;gap:50px;
     max-width:1400px;margin:0 auto 50px;
   }
   .footer-brand p{font-size:.92rem;color:rgba(232,226,211,.6);margin-top:20px;line-height:1.7;max-width:340px}
@@ -699,19 +784,48 @@
     nav{padding:14px 22px}
     .nav-links,.nav-cta{display:none}
     .hamburger{display:flex}
-    section,.coverage,.cta-final,footer{padding-left:22px;padding-right:22px}
-    .hero{padding:130px 22px 60px}
-    .coords{display:none}
-    .crosshair{width:380px;height:380px;opacity:.08}
+    section,.coverage,footer{padding-left:22px;padding-right:22px}
 
-    /* Carrossel de serviços no mobile — 1 card por slide */
+    /* HERO mobile — sobe um pouco, fonte alinhada com seções */
+    .hero{padding:90px 22px 50px;min-height:auto}
+    .hero-tag{margin-bottom:20px;font-size:.65rem;letter-spacing:.18em}
+    .hero h1{font-size:clamp(1.9rem,7.5vw,2.6rem);line-height:1.1;margin-bottom:22px}
+    .hero-sub{
+      font-size:1.05rem;
+      line-height:1.7;
+      color:rgba(232,226,211,.7);
+      max-width:560px;
+      margin-bottom:30px;
+    }
+    .hero-sub strong{color:rgba(232,226,211,.7);font-weight:300}
+    .hero-stats{padding-top:28px;margin-top:10px}
+    .coords{display:none}
+    .crosshair{width:340px;height:340px;opacity:.07}
+
+    /* Section paddings reduzidos no mobile p/ ritmo melhor */
+    section{padding:60px 22px}
+    .problem,.services,.method,.icp,.testimonials,.faq{padding-top:55px;padding-bottom:55px}
+    .coverage{padding:60px 22px}
+    .section-sub{margin-bottom:36px}
+
+    /* SERVIÇOS no mobile — VOLTAR PARA VERTICAL (não carrossel) */
     .services-carousel{padding:0}
     .services-track{
+      display:flex;
+      flex-direction:column;
       gap:14px;
-      padding-left:22px;padding-right:22px;
+      overflow:visible;
+      padding:0;
     }
-    .services-track .service{flex:0 0 85%}
-    .carousel-btn{display:none} /* esconde setas no mobile, swipe é nativo */
+    .services-track .service{flex:0 0 auto;width:100%}
+    .carousel-btn{display:none}
+    .services-dots{display:none}
+    /* No mobile esconde os IDs SVC.001 etc para deixar cards mais compactos */
+    .services-track .service .id{display:none}
+    .services-track .service{padding:30px 26px}
+    .services-track .service .ico{width:44px;height:44px;margin-bottom:18px}
+    .services-track .service h3{font-size:1.45rem;margin-bottom:10px}
+    .services-track .service p{font-size:.92rem}
 
     /* Carrossel de problem no mobile */
     .problem-grid{
@@ -723,8 +837,8 @@
       scroll-behavior:smooth;
       scrollbar-width:none;
       -ms-overflow-style:none;
-      padding:8px 22px 30px;
-      margin-left:-22px;margin-right:-22px;
+      padding:8px 22px 24px;
+      margin:30px -22px 0;
     }
     .problem-grid::-webkit-scrollbar{display:none}
     .problem-card{
@@ -734,22 +848,93 @@
     }
     .problem-dots{display:flex}
 
+    /* Carrossel do método (5 fases) no mobile */
+    .method-carousel{padding:0}
+    .method-grid{
+      display:flex;
+      gap:0;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+      padding:8px 22px 24px;
+      margin:20px -22px 0;
+    }
+    .method-grid::-webkit-scrollbar{display:none}
+    .step{
+      flex:0 0 85%;
+      scroll-snap-align:start;
+      min-width:0;
+      margin:0 7px 0 0;
+    }
+    .method-dots{display:flex}
+
+    /* Carrossel do ICP no mobile */
+    .icp-grid{
+      grid-template-columns:none;
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+      padding:8px 22px 24px;
+      margin:30px -22px 0;
+    }
+    .icp-grid::-webkit-scrollbar{display:none}
+    .icp-card{
+      flex:0 0 80%;
+      scroll-snap-align:start;
+      min-width:0;
+    }
+    .icp-dots{display:flex}
+
+    /* Carrossel dos testimonials no mobile */
+    .testi-grid{
+      grid-template-columns:none;
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+      padding:8px 22px 24px;
+      margin:30px -22px 0;
+    }
+    .testi-grid::-webkit-scrollbar{display:none}
+    .testi{
+      flex:0 0 85%;
+      scroll-snap-align:start;
+      min-width:0;
+    }
+    .testi-dots{display:flex}
+
     /* Coverage section centralizada no mobile */
-    .coverage-wrap{grid-template-columns:1fr;gap:50px;text-align:center}
+    .coverage-wrap{grid-template-columns:1fr;gap:36px;text-align:center}
     .coverage-text .section-tag{justify-content:center}
     .coverage-text .section-tag::after{content:'';width:30px;height:1px;background:var(--red)}
     .coverage-text .section-title{margin-left:auto;margin-right:auto;text-align:center}
     .coverage-text > p{text-align:center;max-width:560px;margin-left:auto;margin-right:auto}
     .timeline{text-align:left;display:inline-block;margin-left:0}
 
+    /* Sobre Nós mobile */
+    .about-wrap{grid-template-columns:1fr;gap:36px;text-align:center}
+    .about-text .section-tag{justify-content:center}
+    .about-text .section-tag::after{content:'';width:30px;height:1px;background:var(--red)}
+    .about-text .section-title{margin-left:auto;margin-right:auto;text-align:center}
+    .about-text p{text-align:center;max-width:560px;margin-left:auto;margin-right:auto}
+    .about-pillars{justify-content:center}
+
     .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
-    .hero h1{font-size:clamp(2rem,8vw,3rem)}
-    .cta-final::after{font-size:8rem}
   }
   @media (max-width:560px){
     .footer-grid{grid-template-columns:1fr}
     .hero-stats{grid-template-columns:1fr 1fr;gap:18px}
-    .stat .num{font-size:2.2rem}
+    .stat .num{font-size:1.9rem}
+    .hero h1{font-size:clamp(1.7rem,6.8vw,2.3rem)}
   }
 </style>
 </head>
@@ -762,17 +947,28 @@
     <div class="logo-text">TACTICAL<span>·</span>MÍDIA</div>
   </a>
   <div class="nav-links">
+    <a href="#">Início</a>
+    <a href="#sobre">Sobre Nós</a>
     <a href="#servicos">Serviços</a>
-    <a href="#metodo">Método</a>
-    <a href="#cobertura">Cobertura</a>
     <a href="#cases">Cases</a>
     <a href="#faq">FAQ</a>
   </div>
-  <a href="#contato" class="nav-cta">Diagnóstico Grátis</a>
-  <button class="hamburger" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
+
+<!-- ============ MOBILE MENU ============ -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <a href="#" class="mob-link">Início</a>
+    <a href="#sobre" class="mob-link">Sobre Nós</a>
+    <a href="#servicos" class="mob-link">Serviços</a>
+    <a href="#cases" class="mob-link">Cases</a>
+    <a href="#faq" class="mob-link">FAQ</a>
+    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20agendar%20um%20diagn%C3%B3stico%20gratuito%20com%20a%20Tactical%20M%C3%ADdia" class="btn-primary mob-cta" target="_blank" rel="noopener">DIAGNÓSTICO GRÁTIS</a>
+  </div>
+</div>
 
 <!-- ============ HERO ============ -->
 <header class="hero">
@@ -804,23 +1000,22 @@
   </div>
 
   <h1>
-    SEU CAMPO LOTADO.<br>
-    SUA MARCA <span class="accent">DOMINANDO</span><br>
+    SEU CAMPO LOTADO. SUA<br>
+    MARCA <span class="accent">DOMINANDO</span><br>
     O <span class="strike">TERRITÓRIO.</span>
   </h1>
 
   <p class="hero-sub">
-    Somos a primeira agência de marketing <strong>100% nichada em airsoft</strong>. Cuidamos do tráfego, conteúdo, branding e cobertura de games dos maiores campos, lojas e organizadores do Brasil — enquanto você foca em entregar a melhor operação para os operadores.
+    Somos a primeira agência de marketing <strong>100% nichada em airsoft</strong>. Cuidamos do tráfego, conteúdo, branding e cobertura de games dos maiores campos, lojas e organizadores do Brasil. Enquanto você foca em entregar a melhor operação para os operadores.
   </p>
 
   <div class="hero-cta-row">
-    <a href="#contato" class="btn-primary">
+    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20agendar%20um%20diagn%C3%B3stico%20gratuito%20com%20a%20Tactical%20M%C3%ADdia" class="btn-primary" target="_blank" rel="noopener">
       AGENDAR DIAGNÓSTICO
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M5 12h14M13 5l7 7-7 7"/>
       </svg>
     </a>
-    <a href="#servicos" class="btn-secondary">Ver Serviços</a>
   </div>
 
   <div class="hero-stats">
@@ -843,13 +1038,55 @@
   </div>
 </header>
 
+<!-- ============ SOBRE NÓS ============ -->
+<section class="about" id="sobre">
+  <div class="about-wrap">
+    <div class="about-text">
+      <div class="section-tag">QUEM SOMOS</div>
+      <h2 class="section-title">
+        UMA AGÊNCIA <span class="red">FORJADA</span><br>
+        DENTRO DA COMUNIDADE.
+      </h2>
+      <p>
+        A Tactical Mídia nasceu da fusão entre operadores de airsoft e profissionais de marketing de performance. Cansados de ver campos incríveis com presença digital amadora, montamos um time que entende a operação por dentro: do briefing de game ao funil de venda de ingresso.
+      </p>
+      <p>
+        Não somos uma agência de São Paulo que aprendeu sobre airsoft no Google. Somos quem chega no campo de bota, sabe a diferença entre um milsim e um speedsoft e fala a língua que o operador respeita. Por isso conseguimos resultado onde agências genéricas falham.
+      </p>
+
+      <div class="about-pillars">
+        <div class="about-pillar">
+          <div class="num"><span>+5</span></div>
+          <div class="lbl">Anos no airsoft</div>
+        </div>
+        <div class="about-pillar">
+          <div class="num"><span>4</span></div>
+          <div class="lbl">Especialistas no time</div>
+        </div>
+        <div class="about-pillar">
+          <div class="num"><span>100%</span></div>
+          <div class="lbl">Foco no nicho</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-visual reveal">
+      <div class="stencil-tag">OP. HQ</div>
+      <div class="corner tl"></div><div class="corner tr"></div>
+      <div class="corner bl"></div><div class="corner br"></div>
+      <img src="foto-equipe.png" alt="Equipe da Tactical Mídia em operação no escritório" loading="lazy">
+    </div>
+  </div>
+</section>
+
 <!-- ============ PROBLEMA ============ -->
 <section class="problem" id="problema">
   <div class="section-head-center">
     <div class="section-tag center">DIAGNÓSTICO DE CAMPO</div>
     <h2 class="section-title center">
-      SE SEU CAMPO TEM <span class="red">UM DESSES PROBLEMAS,</span><br>
-      A GENTE PRECISA CONVERSAR.
+      SE SEU CAMPO TEM<br>
+      <span class="red">UM DESSES PROBLEMAS,</span><br>
+      PRECISAMOS CONVERSAR.
     </h2>
   </div>
 
@@ -902,12 +1139,17 @@
   <div class="section-head-center">
     <div class="section-tag center">ARSENAL ESTRATÉGICO</div>
     <h2 class="section-title center">
-      TUDO QUE UMA AGÊNCIA FAZ.<br>
+      <span class="dt-only">TUDO QUE UMA AGÊNCIA FAZ.<br>
       <span class="hl">MAS NA LINGUAGEM DE QUEM</span><br>
-      VIVE O AIRSOFT.
+      <span class="hl">VIVE O AIRSOFT.</span></span>
+      <span class="mb-only">TUDO QUE UMA<br>
+      AGÊNCIA FAZ.<br>
+      <span class="hl">MAS NA LINGUAGEM<br>
+      DE QUEM VIVE</span><br>
+      <span class="hl">O AIRSOFT.</span></span>
     </h2>
     <p class="section-sub center">
-      Não somos uma agência genérica que aprendeu sobre seu nicho. Somos operadores que entendem de marketing — e isso muda tudo na hora de gerar resultado.
+      Não somos uma agência genérica que aprendeu sobre seu nicho. Somos operadores que entendem de marketing, e isso muda tudo na hora de gerar resultado.
     </p>
   </div>
 
@@ -924,7 +1166,7 @@
           <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
         </svg>
         <h3>Cobertura completa de games</h3>
-        <p>Drone, fotografia, vídeo cinematográfico, reels, edição em tempo real e divulgação pré-game. Transformamos seu evento em conteúdo viral antes, durante e depois — e ainda monetizamos com a venda de fotos para os participantes.</p>
+        <p>Drone, fotografia, vídeo cinematográfico, reels, edição em tempo real e divulgação pré-game. Transformamos seu evento em conteúdo viral antes, durante e depois, monetizando ainda com a venda de fotos para os participantes.</p>
       </div>
 
       <div class="service reveal">
@@ -933,7 +1175,7 @@
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <h3>Tráfego pago especializado</h3>
-        <p>Meta Ads e Google Ads com segmentação de operadores reais — não público frio que nunca pisou num campo.</p>
+        <p>Meta Ads e Google Ads com segmentação de operadores reais. Nada de público frio que nunca pisou num campo.</p>
       </div>
 
       <div class="service reveal">
@@ -998,6 +1240,15 @@
   </div>
 
   <div class="carousel-dots services-dots" aria-hidden="true"></div>
+
+  <div class="section-cta">
+    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20agendar%20um%20diagn%C3%B3stico%20gratuito%20com%20a%20Tactical%20M%C3%ADdia" class="btn-primary" target="_blank" rel="noopener">
+      DIAGNÓSTICO GRÁTIS
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M13 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
 </section>
 
 <!-- ============ MÉTODO ============ -->
@@ -1013,33 +1264,44 @@
     </p>
   </div>
 
-  <div class="method-grid">
-    <div class="step reveal">
-      <span class="step-num">01</span>
-      <h4>RECONHECIMENTO</h4>
-      <p>Imersão no seu campo: mapeamento de público, ticket médio, sazonalidade, concorrência regional e oportunidades de crescimento ainda não exploradas.</p>
+  <div class="method-carousel">
+    <button class="carousel-btn prev" aria-label="Anterior" data-target="method">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+
+    <div class="method-grid" id="methodTrack">
+      <div class="step reveal">
+        <span class="step-num">01</span>
+        <h4>RECONHECIMENTO</h4>
+        <p>Imersão no seu campo: mapeamento de público, ticket médio, sazonalidade, concorrência regional e oportunidades de crescimento ainda não exploradas.</p>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">02</span>
+        <h4>BRIEFING DE COMBATE</h4>
+        <p>Plano estratégico de 90 dias com metas claras: lotar X% mais o próximo game, abrir um novo formato, escalar venda de pacote, montar lista VIP.</p>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">03</span>
+        <h4>POSICIONAMENTO</h4>
+        <p>Construímos ou refinamos sua marca para que ela tenha cara, voz e reputação que façam o operador escolher você sem comparar preço.</p>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">04</span>
+        <h4>EXECUÇÃO TÁTICA</h4>
+        <p>Tráfego pago, criação de conteúdo, cobertura de games, automações e gestão da comunidade. Tudo rodando como uma operação coordenada.</p>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">05</span>
+        <h4>DEBRIEFING MENSAL</h4>
+        <p>Reunião mensal com relatório completo, análise do que funcionou, o que cortar e o próximo movimento. Sem caixa-preta.</p>
+      </div>
     </div>
-    <div class="step reveal">
-      <span class="step-num">02</span>
-      <h4>BRIEFING DE COMBATE</h4>
-      <p>Plano estratégico de 90 dias com metas claras: lotar X% mais o próximo game, abrir um novo formato, escalar venda de pacote, montar lista VIP.</p>
-    </div>
-    <div class="step reveal">
-      <span class="step-num">03</span>
-      <h4>POSICIONAMENTO</h4>
-      <p>Construímos ou refinamos sua marca para que ela tenha cara, voz e reputação que façam o operador escolher você sem comparar preço.</p>
-    </div>
-    <div class="step reveal">
-      <span class="step-num">04</span>
-      <h4>EXECUÇÃO TÁTICA</h4>
-      <p>Tráfego pago, criação de conteúdo, cobertura de games, automações e gestão da comunidade — tudo rodando como uma operação coordenada.</p>
-    </div>
-    <div class="step reveal">
-      <span class="step-num">05</span>
-      <h4>DEBRIEFING MENSAL</h4>
-      <p>Reunião mensal com relatório completo, análise do que funcionou, o que cortar e o próximo movimento. Sem caixa-preta.</p>
-    </div>
+
+    <button class="carousel-btn next" aria-label="Próximo" data-target="method">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
+  <div class="carousel-dots method-dots" aria-hidden="true"></div>
 </section>
 
 <!-- ============ COBERTURA DE GAME ============ -->
@@ -1083,6 +1345,15 @@
       </div>
     </div>
   </div>
+
+  <div class="section-cta">
+    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20agendar%20um%20diagn%C3%B3stico%20gratuito%20com%20a%20Tactical%20M%C3%ADdia" class="btn-primary" target="_blank" rel="noopener">
+      DIAGNÓSTICO GRÁTIS
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M13 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
 </section>
 
 <!-- ============ ICP / CASES ============ -->
@@ -1090,7 +1361,8 @@
   <div class="section-head-center">
     <div class="section-tag center">PERFIL DE CLIENTE</div>
     <h2 class="section-title center">
-      PARA QUEM É A <span class="red">TACTICAL MÍDIA.</span>
+      PARA QUEM É A<br>
+      <span class="red">TACTICAL MÍDIA.</span>
     </h2>
     <p class="section-sub center">
       Trabalhamos com quem leva airsoft a sério. Se você se reconhece em algum desses perfis, a gente já sabe como te ajudar a escalar.
@@ -1119,6 +1391,7 @@
       <p>Importadoras, fabricantes nacionais e marcas que querem ativação real dentro da comunidade airsoft brasileira.</p>
     </div>
   </div>
+  <div class="carousel-dots icp-dots" aria-hidden="true"></div>
 </section>
 
 <!-- ============ DEPOIMENTOS ============ -->
@@ -1126,8 +1399,8 @@
   <div class="section-head-center">
     <div class="section-tag center">PROVA DE CAMPO</div>
     <h2 class="section-title center">
-      O QUE OS COMANDANTES<br>
-      <span class="hl">ESTÃO FALANDO.</span>
+      COMANDANTES QUE<br>
+      <span class="hl">CONFIAM NA TACTICAL MÍDIA.</span>
     </h2>
   </div>
 
@@ -1168,6 +1441,7 @@
       </div>
     </div>
   </div>
+  <div class="carousel-dots testi-dots" aria-hidden="true"></div>
 </section>
 
 <!-- ============ FAQ ============ -->
@@ -1190,11 +1464,11 @@
     </details>
     <details class="faq-item">
       <summary>Existe contrato de fidelidade?</summary>
-      <div class="answer">Trabalhamos com contrato mínimo de 90 dias para que a estratégia tenha tempo de gerar resultado real. Após esse período, a renovação é mensal. Marketing tático precisa de continuidade — quem promete resultado em 7 dias está te vendendo ilusão.</div>
+      <div class="answer">Trabalhamos com contrato mínimo de 90 dias para que a estratégia tenha tempo de gerar resultado real. Após esse período, a renovação é mensal. Marketing tático precisa de continuidade. Quem promete resultado em 7 dias está te vendendo ilusão.</div>
     </details>
     <details class="faq-item">
       <summary>Como funciona a venda de fotos do game?</summary>
-      <div class="answer">Após o game, montamos uma plataforma com reconhecimento visual onde cada operador acessa, encontra suas fotos e compra pacotes individuais. O campo recebe uma comissão sobre cada venda — vira uma fonte de receita recorrente sem custo operacional adicional.</div>
+      <div class="answer">Após o game, montamos uma plataforma com reconhecimento visual onde cada operador acessa, encontra suas fotos e compra pacotes individuais. O campo recebe uma comissão sobre cada venda. Vira uma fonte de receita recorrente sem custo operacional adicional.</div>
     </details>
     <details class="faq-item">
       <summary>Posso contratar só um serviço específico?</summary>
@@ -1205,32 +1479,20 @@
       <div class="answer">O investimento varia de acordo com o porte do campo, a quantidade de games por mês e os serviços contratados. Após o diagnóstico gratuito enviamos uma proposta sob medida. Trabalhamos desde planos mais enxutos para campos iniciantes até operações completas para grandes organizadores.</div>
     </details>
   </div>
-</section>
 
-<!-- ============ CTA FINAL ============ -->
-<section class="cta-final" id="contato">
-  <div class="cta-wrap">
-    <div class="section-tag center">CHAMADO À AÇÃO</div>
-    <h2>
-      ESTÁ NA HORA DE<br>
-      <span class="red">DOMINAR</span> SEU TERRITÓRIO.
-    </h2>
-    <p>
-      Agende um diagnóstico gratuito de 30 minutos. Vamos analisar seu campo, sua presença digital e te entregar um plano de ataque — independente de você fechar com a gente ou não.
-    </p>
+  <div class="section-cta">
     <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Quero%20agendar%20um%20diagn%C3%B3stico%20gratuito%20com%20a%20Tactical%20M%C3%ADdia" class="btn-primary" target="_blank" rel="noopener">
-      QUERO MEU DIAGNÓSTICO
+      DIAGNÓSTICO GRÁTIS
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M5 12h14M13 5l7 7-7 7"/>
       </svg>
     </a>
-    <div class="cta-extra">// Resposta em até 4 horas úteis · 100% sem compromisso</div>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
 <footer>
-  <div class="footer-grid">
+  <div class="footer-grid footer-grid-3">
     <div class="footer-brand">
       <a href="#" class="logo">
         <div class="logo-mark"><span class="dot"></span></div>
@@ -1239,25 +1501,18 @@
       <p>A primeira agência de marketing 100% nichada em airsoft do Brasil. Estratégia, execução e cobertura para campos, lojas, marcas e organizadores que querem dominar o mercado.</p>
     </div>
     <div class="footer-col">
-      <h5>Serviços</h5>
-      <a href="#servicos">Tráfego pago</a>
-      <a href="#servicos">Cobertura de games</a>
-      <a href="#servicos">Branding</a>
-      <a href="#servicos">Gestão social</a>
-      <a href="#servicos">Venda de fotos</a>
-    </div>
-    <div class="footer-col">
-      <h5>Agência</h5>
-      <a href="#metodo">Método</a>
+      <h5>Navegação</h5>
+      <a href="#">Início</a>
+      <a href="#sobre">Sobre Nós</a>
+      <a href="#servicos">Serviços</a>
       <a href="#cases">Cases</a>
       <a href="#faq">FAQ</a>
-      <a href="#contato">Contato</a>
     </div>
     <div class="footer-col">
       <h5>Contato</h5>
-      <a href="#">contato@tacticalmidia.com</a>
-      <a href="#">WhatsApp: (00) 0000-0000</a>
-      <a href="#">@tacticalmidia</a>
+      <a href="mailto:contato@tacticalmidia.com">contato@tacticalmidia.com</a>
+      <a href="https://wa.me/5500000000000" target="_blank" rel="noopener">WhatsApp: (00) 0000-0000</a>
+      <a href="https://instagram.com/tacticalmidia" target="_blank" rel="noopener">@tacticalmidia</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1272,6 +1527,40 @@
 </a>
 
 <script>
+  // ============ HAMBURGER MENU MOBILE ============
+  (function setupMobileMenu(){
+    const burger = document.querySelector('.hamburger');
+    const menu = document.getElementById('mobileMenu');
+    if(!burger || !menu) return;
+
+    function close(){
+      burger.classList.remove('active');
+      menu.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+      menu.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+    function toggle(){
+      const isOpen = menu.classList.contains('open');
+      if(isOpen){close()} else {
+        burger.classList.add('active');
+        menu.classList.add('open');
+        burger.setAttribute('aria-expanded','true');
+        menu.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    burger.addEventListener('click', toggle);
+    menu.querySelectorAll('a').forEach(link=>{
+      link.addEventListener('click', close);
+    });
+    // Fechar com tecla ESC
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape' && menu.classList.contains('open')) close();
+    });
+  })();
+
   // Reveal on scroll
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
@@ -1292,7 +1581,7 @@
     })
   });
 
-  // ============ CARROSSEL DE SERVIÇOS ============
+  // ============ CARROSSEL DE SERVIÇOS (apenas desktop/tablet) ============
   (function setupServicesCarousel(){
     const track = document.getElementById('servicesTrack');
     if(!track) return;
@@ -1301,9 +1590,10 @@
     const nextBtn = document.querySelector('.carousel-btn.next[data-target="services"]');
     const dotsContainer = document.querySelector('.services-dots');
 
+    function isMobile(){return window.innerWidth <= 980}
+
     function getVisibleCount(){
       const w = window.innerWidth;
-      if(w <= 980) return 1;
       if(w <= 1100) return 2;
       return 3;
     }
@@ -1311,6 +1601,103 @@
     function buildDots(){
       if(!dotsContainer) return;
       dotsContainer.innerHTML = '';
+      if(isMobile()) return;
+      const visible = getVisibleCount();
+      const totalSlides = Math.max(1, cards.length - visible + 1);
+      for(let i=0;i<totalSlides;i++){
+        const d = document.createElement('span');
+        d.className = 'dot' + (i===0?' active':'');
+        d.addEventListener('click',()=>scrollToCard(i));
+        dotsContainer.appendChild(d);
+      }
+    }
+
+    function scrollToCard(index){
+      if(!cards[index]) return;
+      const cardLeft = cards[index].offsetLeft - track.offsetLeft;
+      track.scrollTo({left:cardLeft, behavior:'smooth'});
+    }
+
+    function getCurrentIndex(){
+      const scrollLeft = track.scrollLeft;
+      let closest = 0, minDist = Infinity;
+      cards.forEach((c,i)=>{
+        const dist = Math.abs((c.offsetLeft - track.offsetLeft) - scrollLeft);
+        if(dist < minDist){minDist=dist;closest=i}
+      });
+      return closest;
+    }
+
+    function updateUI(){
+      if(isMobile()) return;
+      const idx = getCurrentIndex();
+      const visible = getVisibleCount();
+      const max = cards.length - visible;
+
+      if(prevBtn) prevBtn.toggleAttribute('disabled', idx <= 0);
+      if(nextBtn) nextBtn.toggleAttribute('disabled', idx >= max);
+
+      if(dotsContainer){
+        const dots = dotsContainer.querySelectorAll('.dot');
+        dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+      }
+    }
+
+    if(prevBtn) prevBtn.addEventListener('click',()=>{
+      if(isMobile()) return;
+      const idx = getCurrentIndex();
+      scrollToCard(Math.max(0, idx-1));
+    });
+    if(nextBtn) nextBtn.addEventListener('click',()=>{
+      if(isMobile()) return;
+      const idx = getCurrentIndex();
+      const visible = getVisibleCount();
+      scrollToCard(Math.min(cards.length-visible, idx+1));
+    });
+
+    track.addEventListener('scroll', () => {
+      clearTimeout(track._t);
+      track._t = setTimeout(updateUI, 80);
+    });
+
+    window.addEventListener('resize', () => {
+      buildDots();
+      updateUI();
+    });
+
+    buildDots();
+    updateUI();
+  })();
+
+  // ============ CARROSSEL DO MÉTODO (apenas desktop/tablet) ============
+  (function setupMethodCarousel(){
+    const track = document.getElementById('methodTrack');
+    if(!track) return;
+    const cards = track.querySelectorAll('.step');
+    const prevBtn = document.querySelector('.carousel-btn.prev[data-target="method"]');
+    const nextBtn = document.querySelector('.carousel-btn.next[data-target="method"]');
+    const dotsContainer = document.querySelector('.method-dots');
+
+    function isMobile(){return window.innerWidth <= 980}
+    function getVisibleCount(){
+      const w = window.innerWidth;
+      if(w <= 1100) return 2;
+      return 3;
+    }
+
+    function buildDots(){
+      if(!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      if(isMobile()){
+        // No mobile, mostra dots iguais ao número de cards
+        for(let i=0;i<cards.length;i++){
+          const d = document.createElement('span');
+          d.className = 'dot' + (i===0?' active':'');
+          d.addEventListener('click',()=>scrollToCard(i));
+          dotsContainer.appendChild(d);
+        }
+        return;
+      }
       const visible = getVisibleCount();
       const totalSlides = Math.max(1, cards.length - visible + 1);
       for(let i=0;i<totalSlides;i++){
@@ -1339,12 +1726,12 @@
 
     function updateUI(){
       const idx = getCurrentIndex();
-      const visible = getVisibleCount();
-      const max = cards.length - visible;
-
-      if(prevBtn) prevBtn.toggleAttribute('disabled', idx <= 0);
-      if(nextBtn) nextBtn.toggleAttribute('disabled', idx >= max);
-
+      if(!isMobile()){
+        const visible = getVisibleCount();
+        const max = cards.length - visible;
+        if(prevBtn) prevBtn.toggleAttribute('disabled', idx <= 0);
+        if(nextBtn) nextBtn.toggleAttribute('disabled', idx >= max);
+      }
       if(dotsContainer){
         const dots = dotsContainer.querySelectorAll('.dot');
         dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
@@ -1352,10 +1739,12 @@
     }
 
     if(prevBtn) prevBtn.addEventListener('click',()=>{
+      if(isMobile()) return;
       const idx = getCurrentIndex();
       scrollToCard(Math.max(0, idx-1));
     });
     if(nextBtn) nextBtn.addEventListener('click',()=>{
+      if(isMobile()) return;
       const idx = getCurrentIndex();
       const visible = getVisibleCount();
       scrollToCard(Math.min(cards.length-visible, idx+1));
@@ -1374,6 +1763,57 @@
     buildDots();
     updateUI();
   })();
+
+  // ============ DOTS GENÉRICOS PARA CARROSSÉIS MOBILE (icp, testi) ============
+  function setupMobileCarouselDots(gridSelector, dotsSelector, cardSelector){
+    const grid = document.querySelector(gridSelector);
+    const dotsContainer = document.querySelector(dotsSelector);
+    if(!grid || !dotsContainer) return;
+    const cards = grid.querySelectorAll(cardSelector);
+
+    function isMobile(){return window.innerWidth <= 980}
+
+    function buildDots(){
+      dotsContainer.innerHTML = '';
+      if(!isMobile()) return;
+      cards.forEach((_,i)=>{
+        const d = document.createElement('span');
+        d.className = 'dot' + (i===0?' active':'');
+        d.addEventListener('click', ()=>{
+          const card = cards[i];
+          if(card) grid.scrollTo({left: card.offsetLeft - grid.offsetLeft, behavior:'smooth'});
+        });
+        dotsContainer.appendChild(d);
+      });
+    }
+
+    function getCurrentIndex(){
+      const scrollLeft = grid.scrollLeft;
+      let closest = 0, minDist = Infinity;
+      cards.forEach((c,i)=>{
+        const dist = Math.abs((c.offsetLeft - grid.offsetLeft) - scrollLeft);
+        if(dist < minDist){minDist=dist;closest=i}
+      });
+      return closest;
+    }
+
+    function update(){
+      if(!isMobile()) return;
+      const idx = getCurrentIndex();
+      const dots = dotsContainer.querySelectorAll('.dot');
+      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+    }
+
+    grid.addEventListener('scroll', () => {
+      clearTimeout(grid._t);
+      grid._t = setTimeout(update, 80);
+    });
+    window.addEventListener('resize', buildDots);
+    buildDots();
+  }
+
+  setupMobileCarouselDots('.icp-grid', '.icp-dots', '.icp-card');
+  setupMobileCarouselDots('.testi-grid', '.testi-dots', '.testi');
 
   // ============ DOTS DO PROBLEM (apenas mobile) ============
   (function setupProblemDots(){
